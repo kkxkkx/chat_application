@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:08:01 -0700
- * @LastEditTime: 2019-09-04 10:12:47 -0700
+ * @LastEditTime: 2019-09-04 10:31:15 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -149,7 +149,7 @@ GtkWidget *CreateTalkWindow(char *name)
     hPaned = gtk_hpaned_new();
     gtk_paned_set_position(hPaned, 600);
     vPaned = gtk_vpaned_new();
-    gtk_paned_set_position(vPaned, 350);
+    gtk_paned_set_position(vPaned, 300);
     gtk_paned_add1(GTK_PANED(hPaned), vPaned);
     buttonbox = gtk_hbox_new(FALSE, 0);
 
@@ -174,10 +174,12 @@ GtkWidget *CreateTalkWindow(char *name)
 
     scrolledwinup = gtk_scrolled_window_new(NULL, NULL);
     scrolledwindown = gtk_scrolled_window_new(NULL, NULL);
-    SendText.view = gtk_text_view_new();
-    SendText.view_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(SendText.view));
-    SeeText.view = gtk_text_view_new();
-    SeeText.view_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(SeeText.view));
+
+    GtkTextTagTable* tagtableshare = gtk_text_tag_table_new();
+    SendText.view_buffer = gtk_text_buffer_new(tagtableshare);
+    SendText.view = gtk_text_view_new_with_buffer(SendText.view_buffer);
+    SeeText.view_buffer = gtk_text_buffer_new(tagtableshare);
+    SeeText.view = gtk_text_view_new_with_buffer(SeeText.view_buffer);
 
     //创建指针保存聊天信息编辑窗口和显示窗口的位置
     chatwin = (FromToWin *)malloc(sizeof(FromToWin));

@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:45:05 -0700
- * @LastEditTime: 2019-09-04 10:12:02 -0700
+ * @LastEditTime: 2019-09-04 10:25:10 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -342,25 +342,27 @@ void on_send(GtkButton *button, FromToWin *ftw)
     gtk_text_buffer_get_bounds(ftw->from, &start, &end);
     gtk_text_buffer_get_end_iter(ftw->to, &show);
 
-    message = gtk_text_buffer_get_slice(ftw->from, &start, &end, TRUE);
+    //message = gtk_text_buffer_get_slice(ftw->from, &start, &end, TRUE);
 
-  if(strlen(message) == 0||message == NULL)//当输入空字符时弹出提示对话框
-    {
-        on_input_null();
-        return;
-    }
+//   if(strlen(message) == 0||message == NULL)//当输入空字符时弹出提示对话框
+//     {
+//         on_input_null();
+//         return;
+//     }
 
-     gtk_text_buffer_get_end_iter(ftw->to, &show);
     gtk_text_buffer_insert(ftw->to, &show, "server:  ", -1);
     gtk_text_buffer_get_end_iter(ftw->to, &show);
     gtk_text_buffer_insert(ftw->to, &show, "\n", -1);
     gtk_text_buffer_get_end_iter(ftw->to, &show);
 
-    gtk_text_buffer_insert(ftw->to, &show, message, -1);
+    //gtk_text_buffer_insert(ftw->to, &show, message, -1);
+    //gtk_text_view_set_editable(GTK_TEXT_VIEW(ftw->show),TRUE);//开启编辑权限
+    gtk_text_buffer_insert_range(ftw->to,&show,&start,&end);//含有pixbuf显示
+    //gtk_text_view_set_editable(GTK_TEXT_VIEW(ftw->show),FALSE);//关闭编辑权限
     gtk_text_buffer_get_end_iter(ftw->to, &show);
     gtk_text_buffer_insert(ftw->to, &show, "\n", -1);
 
-    gtk_text_buffer_insert_range(ftw->to, &show, &start, &end);
+    //gtk_text_buffer_insert_range(ftw->to, &show, &start, &end);
     //  gtk_text_buffer_insert(ftw->to,&show,"\n",-1);
 
     gtk_text_buffer_set_text(ftw->from, "", 1);
