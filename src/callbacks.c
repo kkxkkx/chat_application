@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:45:05 -0700
- * @LastEditTime: 2019-09-04 05:31:24 -0700
+ * @LastEditTime: 2019-09-04 07:40:25 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -320,7 +320,12 @@ void on_send(GtkButton *button, FromToWin *ftw)
     //  gtk_text_buffer_insert(ftw->to,&show,"\n",-1);
 
     gtk_text_buffer_set_text(ftw->from, "", 1);
-    g_thread_create((GThreadFunc)auto_update_thread, NULL, FALSE, NULL);
+
+    // cJSON* data = cJSON_CreateObject();
+    // encodeUserMessage
+    // sendTextToServer(data);
+    // cJSON_Delete(data);
+    //g_thread_create((GThreadFunc)auto_update_thread, NULL, FALSE, NULL);
 }
 
 /**

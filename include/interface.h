@@ -20,7 +20,7 @@
 typedef struct from_to_windows{
     GtkTextBuffer *from;
     GtkTextBuffer *to;
-    int type;
+    char *targey;
 }FromToWin;
 
 typedef struct _WinAppear
