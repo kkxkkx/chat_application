@@ -21,9 +21,9 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <unistd.h>
-#include<string.h>  
-#include<errno.h>  
-#include<sys/types.h>   
+#include <string.h>  
+#include <errno.h>  
+#include <sys/types.h>   
 #include <pthread.h>
 #include <gdk/gdkkeysyms.h>
 #include <sys/types.h>

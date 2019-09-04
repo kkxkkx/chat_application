@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:45:05 -0700
- * @LastEditTime: 2019-09-04 11:50:43 -0700
+ * @LastEditTime: 2019-09-04 14:24:17 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -83,7 +83,7 @@ void ClickedGroup(GtkWidget *button, gpointer window)
  */
 void InsertEmoji(GtkWidget *widget, GdkEventButton *event, Emoji *sinfo)
 {
-
+    gchar* SendMessage;
     char head[30] = "./bin/sticker";
     char tail[10] = ".gif";
     for (int i = 0; i < 3; i++)
@@ -95,12 +95,13 @@ void InsertEmoji(GtkWidget *widget, GdkEventButton *event, Emoji *sinfo)
     GtkTextIter end;
     //获取缓冲区的尾部
     gtk_text_buffer_get_end_iter(sinfo->view_buffer, &end);
-
+    
     GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(head, NULL);
     gtk_text_buffer_insert_pixbuf(sinfo->view_buffer, &end, pixbuf);
+
     //向缓冲区插入数据
     // gtk_text_buffer_insert(sinfo->view_buffer,&end,sinfo->str,-1);
-
+    gtk_text_buffer_insert(sinfo->view_buffer,&end,sinfo->str,-1);
     GtkWidget *sticker_window = sinfo->sticker_window;
     Emoji **p = sinfo->spointer;
     int i;
@@ -368,49 +369,65 @@ gboolean isconnected = TRUE;
 void on_send(GtkButton *button, FromToWin *ftw)
 {
     gchar *message;
-    gchar* report;//report是最终向服务器发送对字符串
+    gchar *username="DengFangqing2746 ";
+    gchar *friendname="HeHezi2116";
     GtkTextIter start, end, show;
+    gchar *report; //report是最终向服务器发送对字符串
+    //TODO:report需要有全局或局部变量外部接应
+
+    
+    // username = my_string_new("DengFangqing2746 ");
+    // friendname = my_string_new("HeHezi2116  ");
+    //TODO:此处应有措施传递用户名
+
     if (isconnected == FALSE)
         return;
+    getThisTime(); //获取发送信息的时间
 
-    getThisTime();
     gtk_text_buffer_get_bounds(ftw->from, &start, &end);
+    //TODO:发表情功能加入后，如何提示输出为空
+    //message = gtk_text_buffer_get_text(ftw->from,&start,&end,FALSE);//获取输入框内文字
+    message = gtk_text_buffer_get_slice(ftw->from, &start, &end, TRUE);
+    //printf("%s",message);
+    if (strlen(message) == 0 || message == NULL) //当输入空字符时弹出提示对话框
+    {
+        on_input_null();
+        return;
+    }
     gtk_text_buffer_get_end_iter(ftw->to, &show);
-
-//     message = gtk_text_buffer_get_slice(ftw->from, &start, &end, TRUE);
-
-//   if(strlen(message) == 0||message == NULL)//当输入空字符时弹出提示对话框
-//     {
-//         on_input_null();
-//         return;
-//     }
-
-    gtk_text_buffer_insert(ftw->to, &show, "server:  ", -1);
+    /////////////////////聊天窗口界面显示/////////////////////////////
+    gtk_text_buffer_insert_with_tags_by_name(ftw->to, &show, username, -1,"AutoWrap","GREEN",NULL);
     gtk_text_buffer_get_end_iter(ftw->to, &show);
-    gtk_text_buffer_insert(ftw->to,&show,nowtime ,-1);
-    gtk_text_buffer_get_end_iter(ftw->to, &show);
+    gtk_text_buffer_insert_with_tags_by_name(ftw->to, &show, nowtime, -1,"AutoWrap","GREEN",NULL);
     gtk_text_buffer_insert(ftw->to, &show, "\n", -1);
     gtk_text_buffer_get_end_iter(ftw->to, &show);
 
-    //gtk_text_buffer_insert(ftw->to, &show, message, -1);
-    //gtk_text_view_set_editable(GTK_TEXT_VIEW(ftw->show),TRUE);//开启编辑权限
-    gtk_text_buffer_insert_range(ftw->to,&show,&start,&end);//含有pixbuf显示
-    //gtk_text_view_set_editable(GTK_TEXT_VIEW(ftw->show),FALSE);//关闭编辑权限
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(ftw->show), TRUE);  //开启编辑权限
+    gtk_text_buffer_insert_range(ftw->to, &show, &start, &end);  //含有pixbuf显示
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(ftw->show), FALSE); //关闭编辑权限
     gtk_text_buffer_get_end_iter(ftw->to, &show);
     gtk_text_buffer_insert(ftw->to, &show, "\n", -1);
 
-    //gtk_text_buffer_insert_range(ftw->to, &show, &start, &end);
-    //  gtk_text_buffer_insert(ftw->to,&show,"\n",-1);
+    gtk_text_buffer_set_text(ftw->from, "", 1); //清空输入框
+    ////////////////////////合成发送信息/////////////////////////////
+    //TODO:如何将表情包和文件发送信息转成字符发送
+    // report = my_string_new("~$Username: ");
+    // report = my_string_add(report, username);
+    // report = my_string_add(report, "\n~$Friendname: ");
+    // report = my_string_add(report, friendname);
+    // report = my_string_add(report, "\n~$Time: ");
+    // report = my_string_add(report, nowtime);
+    // report = my_string_add(report, "\n~$Message: ");
+    // report = my_string_add(report, message); //FIXME:
+    // report = my_string_add(report, "\nEND \n");
 
-    gtk_text_buffer_set_text(ftw->from, "", 1);
-
-    g_printf("%s\n",nowtime);
+    gtk_text_buffer_get_end_iter(ftw->to, &show);
+    gtk_text_buffer_insert(ftw->to, &show, report, -1); //在聊天界面显示，用于验证合成是否成功
     // cJSON* data = cJSON_CreateObject();
     //local,ftw->target,nowtime;
     // encodeUserMessage
 
     // sendTextToServer(data);
-    // cJSON_Delete(data);
     //g_thread_create((GThreadFunc)auto_update_thread, NULL, FALSE, NULL);
 }
 
@@ -600,5 +617,48 @@ void EditBackground(GtkMenuItem *menuitem, gpointer data)
 
     gtk_widget_show_all(background_window);
 }
+int getTime()
+{
+    time_t now;
+    struct tm *l_time;
+    now = time((time_t *)NULL);
+    l_time = localtime(&now); //取本地时间
+    return l_time->tm_sec;
+}
 
+void SwitchWindow(GtkMenuItem *menuitem, gpointer data, gpointer window)
+{
+    gint x, y, flag = 0;
+    gtk_window_get_position(window, &x, &y);
+    gint beginsecond, beforecond, nextsecond;
+    beginsecond = getTime();
+    beforecond = beginsecond + 1;
 
+    while (nextsecond - beginsecond < 5)
+    {
+        nextsecond = getTime();
+        if (nextsecond == beforecond)
+        {
+            // if (flag == 0)
+            // {
+                x = x + 50;
+                y = y + 50;
+                gtk_window_move(window, x, y);
+                sleep(1);
+            //    flag = 1;
+            // }
+            // else
+            // {
+                g_printf("%d %d %d %d\n", x, y, beginsecond, beforecond);
+                //gtk_window_get_position(window, &x, &y);
+                x = x - 50;
+                y = y - 50;
+                gtk_window_move(window, x, y);
+           //     sleep(0.1);
+           //     flag = 0;
+            //}
+            beforecond = nextsecond + 1;
+        }
+        g_printf("%d %d %d %d\n", x, y, beginsecond, beforecond);
+    }
+}
