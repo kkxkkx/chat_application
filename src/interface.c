@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:08:01 -0700
- * @LastEditTime: 2019-09-04 05:22:15 -0700
+ * @LastEditTime: 2019-09-04 10:12:47 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -183,6 +183,8 @@ GtkWidget *CreateTalkWindow(char *name)
     chatwin = (FromToWin *)malloc(sizeof(FromToWin));
     chatwin->from = SendText.view_buffer;
     chatwin->to = SeeText.view_buffer;
+    chatwin->edit = SendText.view;
+    chatwin->show = SeeText.view;
 
     //左下，发送表情与文件的工具栏、文本编辑窗口、发送按钮
     gtk_box_pack_start(GTK_BOX(TalkMenuBox), scrolledwindown, TRUE, TRUE, 0);
@@ -202,6 +204,7 @@ GtkWidget *CreateTalkWindow(char *name)
     buttonbox = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(TalkMenuBox), buttonbox, FALSE, FALSE, 0);
     SendBtn = gtk_button_new_with_label("发送");
+    chatwin->target=name;
     g_signal_connect(G_OBJECT(SendBtn), "clicked", G_CALLBACK(on_send), (gpointer)chatwin);
 
     gtk_box_pack_end(buttonbox, SendBtn, FALSE, FALSE, 0);

@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 09:02:24 -0700
- * @LastEditTime: 2019-09-04 05:31:29 -0700
+ * @LastEditTime: 2019-09-04 10:12:56 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -20,7 +20,9 @@
 typedef struct from_to_windows{
     GtkTextBuffer *from;
     GtkTextBuffer *to;
-    char *targey;
+    GtkTextView *edit;
+    GtkTextView *show;
+    char *target;
 }FromToWin;
 
 typedef struct _WinAppear

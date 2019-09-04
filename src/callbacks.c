@@ -4,13 +4,50 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:45:05 -0700
- * @LastEditTime: 2019-09-04 07:40:25 -0700
+ * @LastEditTime: 2019-09-04 10:12:02 -0700
  * @LastEditors: 
  * @Description: 
  */
 #include "head.h"
 #include "interface.h"
 #include "mainprogram.h"
+
+/**
+ * @Author: 邓方晴
+ * @Description: 在输入为空的情况下点击发送键
+ * @Param: 
+ * @Return: 
+ * @Throw: 
+ */
+void on_input_null()
+{
+    GtkWidget *dialog;
+    dialog = gtk_message_dialog_new(NULL,
+                                    GTK_DIALOG_DESTROY_WITH_PARENT,
+                                    GTK_MESSAGE_INFO,
+                                    GTK_BUTTONS_OK,
+                                    "发送内容不能为空！", "title");
+    gtk_window_set_title(GTK_WINDOW(dialog), "提示");
+    gtk_dialog_run(GTK_DIALOG(dialog));
+    gtk_widget_destroy(dialog);
+}
+static char nowtime[30];//全局变量，显示当前时间
+/**
+ * @Author: 邓方晴
+ * @Description: 获得当前系统时间，返回字符串
+ * @Param: 
+ * @Return: 
+ * @Throw: 
+ */
+void getThisTime()
+{
+    time_t now ;
+    struct tm *l_time;
+    now = time((time_t *)NULL);
+    l_time = localtime(&now); //取本地时间
+    memset(nowtime,'\0',sizeof(nowtime));
+    sprintf(nowtime,"%d/%d/%d  %d:%d:%d",l_time->tm_year+1900,l_time->tm_mon+1,l_time->tm_mday,l_time->tm_hour,l_time->tm_min,l_time->tm_sec);
+}
 /**
  * @Author: 王可欣
  * @Description: 在输入框中插入表情
@@ -298,15 +335,22 @@ gboolean isconnected = TRUE;
 void on_send(GtkButton *button, FromToWin *ftw)
 {
     gchar *message;
+    gchar* report;//report是最终向服务器发送对字符串
     GtkTextIter start, end, show;
     if (isconnected == FALSE)
         return;
     gtk_text_buffer_get_bounds(ftw->from, &start, &end);
-    gtk_text_buffer_get_start_iter(ftw->to, &show);
-
-    message = gtk_text_buffer_get_text(ftw->from, &start, &end, FALSE);
-
     gtk_text_buffer_get_end_iter(ftw->to, &show);
+
+    message = gtk_text_buffer_get_slice(ftw->from, &start, &end, TRUE);
+
+  if(strlen(message) == 0||message == NULL)//当输入空字符时弹出提示对话框
+    {
+        on_input_null();
+        return;
+    }
+
+     gtk_text_buffer_get_end_iter(ftw->to, &show);
     gtk_text_buffer_insert(ftw->to, &show, "server:  ", -1);
     gtk_text_buffer_get_end_iter(ftw->to, &show);
     gtk_text_buffer_insert(ftw->to, &show, "\n", -1);
@@ -322,7 +366,9 @@ void on_send(GtkButton *button, FromToWin *ftw)
     gtk_text_buffer_set_text(ftw->from, "", 1);
 
     // cJSON* data = cJSON_CreateObject();
+    //local,ftw->target,nowtime;
     // encodeUserMessage
+
     // sendTextToServer(data);
     // cJSON_Delete(data);
     //g_thread_create((GThreadFunc)auto_update_thread, NULL, FALSE, NULL);
@@ -338,11 +384,26 @@ void on_send(GtkButton *button, FromToWin *ftw)
 void CheckMessageLog(GtkWidget *widget, GdkEvent *event)
 {
     GtkWidget *window;
+    TextView messagelog;
+    GtkWidget *scroll;
+    GtkTextIter end;
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "历史记录");
     gtk_window_set_default_size(GTK_WINDOW(window), 300, 300);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
     gtk_container_set_border_width(GTK_CONTAINER(window), 10);
+
+    scroll = gtk_scrolled_window_new(NULL,NULL);
+    gtk_container_add(GTK_CONTAINER(window), scroll);
+
+    messagelog.view = gtk_text_view_new();
+    messagelog.view_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(messagelog.view));
+    gtk_text_view_set_editable(messagelog.view,FALSE);
+    gtk_text_buffer_get_end_iter(messagelog.view_buffer,&end);//设置历史记录不可以被编辑
+    gtk_text_buffer_insert(messagelog.view_buffer,&end,"显示消息记录",-1);
+
+    gtk_container_add(GTK_CONTAINER(scroll),messagelog.view);
+
     gtk_widget_show_all(window);
 }
 

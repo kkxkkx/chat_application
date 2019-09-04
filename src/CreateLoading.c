@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-09-01 19:43:01 -0700
- * @LastEditTime: 2019-09-04 04:55:28 -0700
+ * @LastEditTime: 2019-09-04 10:12:46 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -61,7 +61,7 @@ void on_button_clicked(GtkWidget *button, gpointer window)
     if (flag == 0)
     {
         //sendDataToServer(username);
-
+        local=username;
         //跳转到好友列表
         gtk_widget_hide_all(LoadingWindow);
         FriendWindow = CreateMainWindow();
