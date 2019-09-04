@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:45:05 -0700
- * @LastEditTime: 2019-09-04 14:24:17 -0700
+ * @LastEditTime: 2019-09-04 14:40:03 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -101,7 +101,7 @@ void InsertEmoji(GtkWidget *widget, GdkEventButton *event, Emoji *sinfo)
 
     //向缓冲区插入数据
     // gtk_text_buffer_insert(sinfo->view_buffer,&end,sinfo->str,-1);
-    gtk_text_buffer_insert(sinfo->view_buffer,&end,sinfo->str,-1);
+    //gtk_text_buffer_insert(sinfo->view_buffer,&end,sinfo->str,-1);
     GtkWidget *sticker_window = sinfo->sticker_window;
     Emoji **p = sinfo->spointer;
     int i;
@@ -617,6 +617,14 @@ void EditBackground(GtkMenuItem *menuitem, gpointer data)
 
     gtk_widget_show_all(background_window);
 }
+
+/**
+ * @Author: 王可欣
+ * @Description: 
+ * @Param: 
+ * @Return: 
+ */
+
 int getTime()
 {
     time_t now;
@@ -626,39 +634,26 @@ int getTime()
     return l_time->tm_sec;
 }
 
+/**
+ * @Author:何禾子
+ * @Description:  实现窗口抖动
+ * @Param: 
+ * @Return: 
+ */
 void SwitchWindow(GtkMenuItem *menuitem, gpointer data, gpointer window)
 {
     gint x, y, flag = 0;
     gtk_window_get_position(window, &x, &y);
-    gint beginsecond, beforecond, nextsecond;
-    beginsecond = getTime();
-    beforecond = beginsecond + 1;
+  
+    x = x + 50;
+    y = y + 50;
+    gtk_window_move(window, x, y);
+    
+    sleep(1);
 
-    while (nextsecond - beginsecond < 5)
-    {
-        nextsecond = getTime();
-        if (nextsecond == beforecond)
-        {
-            // if (flag == 0)
-            // {
-                x = x + 50;
-                y = y + 50;
-                gtk_window_move(window, x, y);
-                sleep(1);
-            //    flag = 1;
-            // }
-            // else
-            // {
-                g_printf("%d %d %d %d\n", x, y, beginsecond, beforecond);
-                //gtk_window_get_position(window, &x, &y);
-                x = x - 50;
-                y = y - 50;
-                gtk_window_move(window, x, y);
-           //     sleep(0.1);
-           //     flag = 0;
-            //}
-            beforecond = nextsecond + 1;
-        }
-        g_printf("%d %d %d %d\n", x, y, beginsecond, beforecond);
-    }
+    x = x - 40;
+    y = y - 40;
+    gtk_window_move(window, x, y);
+    
+
 }
