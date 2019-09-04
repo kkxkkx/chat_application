@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:45:05 -0700
- * @LastEditTime: 2019-09-04 11:18:29 -0700
+ * @LastEditTime: 2019-09-04 11:50:43 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -59,6 +59,7 @@ void getThisTime()
     l_time = localtime(&now); //取本地时间
     memset(nowtime,'\0',sizeof(nowtime));
     sprintf(nowtime,"%d/%d/%d  %d:%d:%d",l_time->tm_year+1900,l_time->tm_mon+1,l_time->tm_mday,l_time->tm_hour,l_time->tm_min,l_time->tm_sec);
+    g_printf("%s\n",nowtime);
 }
 /**
  * @Author: hhz
@@ -371,10 +372,12 @@ void on_send(GtkButton *button, FromToWin *ftw)
     GtkTextIter start, end, show;
     if (isconnected == FALSE)
         return;
+
+    getThisTime();
     gtk_text_buffer_get_bounds(ftw->from, &start, &end);
     gtk_text_buffer_get_end_iter(ftw->to, &show);
 
-    //message = gtk_text_buffer_get_slice(ftw->from, &start, &end, TRUE);
+//     message = gtk_text_buffer_get_slice(ftw->from, &start, &end, TRUE);
 
 //   if(strlen(message) == 0||message == NULL)//当输入空字符时弹出提示对话框
 //     {
@@ -383,6 +386,8 @@ void on_send(GtkButton *button, FromToWin *ftw)
 //     }
 
     gtk_text_buffer_insert(ftw->to, &show, "server:  ", -1);
+    gtk_text_buffer_get_end_iter(ftw->to, &show);
+    gtk_text_buffer_insert(ftw->to,&show,nowtime ,-1);
     gtk_text_buffer_get_end_iter(ftw->to, &show);
     gtk_text_buffer_insert(ftw->to, &show, "\n", -1);
     gtk_text_buffer_get_end_iter(ftw->to, &show);
@@ -399,6 +404,7 @@ void on_send(GtkButton *button, FromToWin *ftw)
 
     gtk_text_buffer_set_text(ftw->from, "", 1);
 
+    g_printf("%s\n",nowtime);
     // cJSON* data = cJSON_CreateObject();
     //local,ftw->target,nowtime;
     // encodeUserMessage
