@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:08:01 -0700
- * @LastEditTime: 2019-09-04 10:45:13 -0700
+ * @LastEditTime: 2019-09-04 11:22:31 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -298,7 +298,7 @@ GtkWidget *CreateMainToolbar(GtkWidget *window)
                                       GTK_SIGNAL_FUNC(BackToLoading), NULL);
     edit = gtk_toolbar_append_item(GTK_TOOLBAR(toolbar), "", "修改资料", "Private", EditIcon,
                                    GTK_SIGNAL_FUNC(EditInformation), NULL);
-    edit = gtk_toolbar_append_item(GTK_TOOLBAR(toolbar), "", "修改资料", "Private", PaintIcon,
+    edit = gtk_toolbar_append_item(GTK_TOOLBAR(toolbar), "", "修改主题", "Private", PaintIcon,
                                    GTK_SIGNAL_FUNC(EditBackground), NULL);
     return toolbar;
 }
@@ -338,3 +338,4 @@ static void ReceiveDrop(GtkWidget *widget, GdkDragContext *context,
     }
     gtk_drag_finish(context, TRUE, TRUE, time);
 }
+

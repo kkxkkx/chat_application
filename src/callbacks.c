@@ -4,13 +4,25 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:45:05 -0700
- * @LastEditTime: 2019-09-04 10:25:10 -0700
+ * @LastEditTime: 2019-09-04 11:18:29 -0700
  * @LastEditors: 
  * @Description: 
  */
 #include "head.h"
 #include "interface.h"
 #include "mainprogram.h"
+
+/**
+ * @Author: hhz
+ * @Description: 
+ * @Param: 
+ * @Return: 
+ * @Throw: 
+ */
+void SubmitInfo(GtkWidget *button, gpointer window,GtkWidget *data)
+{
+    gtk_widget_destroy(data);
+}
 
 /**
  * @Author: 邓方晴
@@ -291,6 +303,7 @@ void EditInformation(GtkMenuItem *menuitem, gpointer data)
     GtkWidget *window;
     GtkWidget *label1, *label2, *label4;
     GtkWidget *box1, *box2, *box3, *box4;
+    GtkWidget *button;
 
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "修改个人资料");
@@ -319,9 +332,14 @@ void EditInformation(GtkMenuItem *menuitem, gpointer data)
     gtk_box_pack_start(GTK_BOX(box4), label4, FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(box4), entry4, FALSE, FALSE, 5);
 
+    button=gtk_button_new_with_label("确定");
+    g_signal_connect(G_OBJECT(button), "clicked",
+                     G_CALLBACK(SubmitInfo), window);
+
     gtk_box_pack_start(GTK_BOX(box3), box1, FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(box3), box2, FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(box3), box4, FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(box3), button, FALSE, FALSE, 5);
     gtk_widget_show_all(window);
 }
 /**
@@ -576,3 +594,5 @@ void EditBackground(GtkMenuItem *menuitem, gpointer data)
 
     gtk_widget_show_all(background_window);
 }
+
+
