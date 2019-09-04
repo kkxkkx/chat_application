@@ -25,7 +25,7 @@ static void sigh_print_selection(GtkWidget *gtklist, gpointer func_data);
  * @Param: 
  * @Return: 
  */
-GtkWidget * CreateFriendlist(void)
+GtkWidget * CreateFriendlist(GtkWidget *page)
 {
     GtkWidget *vbox;
     GtkWidget *view;

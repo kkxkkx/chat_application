@@ -78,8 +78,8 @@ void on_send(GtkButton * button,FromToWin* ftw);
 GtkWidget* CreateMainWindow( void );
 GtkWidget* CreateTalkWindow( char * name );
 GtkWidget* CreateLoading(void);
-GtkWidget* CreateFriendlist(void);
-
+GtkWidget * CreateFriendlist(GtkWidget *page);
+GtkWidget* CreateGrouplist(GtkWidget *page);
 
 FromToWin *chatwin;
 #endif

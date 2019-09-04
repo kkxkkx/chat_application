@@ -24,10 +24,11 @@ static void ReceiveDrop(GtkWidget *widget, GdkDragContext *context,
 /**
  * @Author: 王可欣 何禾子
  * @Description: 好友列表（主界面）
- * @add Description:添加了个性签名,修改了上端界面
+ * @add Description:添加了个性签名,修改了上端界面,增加了群聊列表
  * @Param: 
  * @Return: 
  */
+
 GtkWidget *CreateMainWindow(void)
 {
     GtkWidget *MainWindow;
@@ -35,14 +36,13 @@ GtkWidget *CreateMainWindow(void)
     GtkWidget *sep;
     GtkWidget *listsep;
     GtkWidget *SelfTextBox; //防止名字和ID部分
-    GtkWidget *FrinedBox;   //好友列表
+    GtkWidget *FriendBox;   //好友列表
     GtkWidget *ScrollFriend;
     GtkWidget *SelfImage;
     GtkWidget *NickLable;
     GtkWidget *IDLable;
     GtkWidget *MottoLable;
     GtkWidget *ListLable;
-    GtkWidget *FriendBox;
     GtkWidget *PaneBetweenSelfAndFriend;
     GtkWidget *panel;
     GtkWidget *MainToolbar;
@@ -57,7 +57,6 @@ GtkWidget *CreateMainWindow(void)
     SelfInfo->NickName = "王可欣";
     SelfInfo->Motto = "风过了,花香还在";
     MainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    // gtk_window_set_position(GTK_WINDOW(MainWindow), GTK_WIN_POS_CENTER);
     gtk_window_move(MainWindow, 1000, 20);
 
     gtk_window_set_title(GTK_WINDOW(MainWindow), "好友列表");
@@ -67,7 +66,6 @@ GtkWidget *CreateMainWindow(void)
 
     gtk_window_set_default_size(GTK_WINDOW(MainWindow), 300, 600);
     SelfBox = gtk_hbox_new(FALSE, 0);
-    // gtk_widget_set_size_request(GTK_BOX(SelfTextBox),30,20);
 
     SelfImage = gtk_image_new_from_file("./bin/pic/head.png");
     gtk_box_pack_start(GTK_BOX(SelfBox), SelfImage, FALSE, FALSE, 1);
@@ -101,13 +99,37 @@ GtkWidget *CreateMainWindow(void)
 
     listsep = gtk_hseparator_new();
     gtk_box_pack_start(GTK_BOX(MainBox),listsep, FALSE, FALSE, 1);
-    ListLable = gtk_label_new("好友列表");
-    gtk_box_pack_start(GTK_BOX(MainBox), ListLable, FALSE, FALSE, 1);
+
+
+    GtkWidget *notebook;
+    GtkWidget *friendlabel;
+    GtkWidget *grouplabel;
+    GtkWidget *GroupBox;
+    GtkWidget *page;
+    //GtkWidget *page1;
+    notebook = gtk_notebook_new();
+    gtk_box_pack_start(GTK_BOX(MainBox), notebook, FALSE, FALSE,1);
     //好友列表
-    FrinedBox = gtk_vbox_new(FALSE, 0);
-    FriendBox = CreateFriendlist();
-    gtk_widget_set_size_request(GTK_BOX(FriendBox), 250, 520);
-    gtk_container_add(GTK_CONTAINER(MainBox), FriendBox);
+    page = gtk_vbox_new(FALSE,0);
+    FriendBox = gtk_vbox_new(FALSE, 0);
+    FriendBox = CreateFriendlist(&page);
+    gtk_widget_set_size_request(GTK_BOX(FriendBox), 250, 480);
+    gtk_box_pack_start(GTK_BOX(page),FriendBox, FALSE, FALSE, 1);
+    friendlabel = gtk_label_new("好友列表");
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook),page, friendlabel);
+    //群聊列表
+    page = gtk_vbox_new(FALSE,0);
+    // GroupBox = gtk_vbox_new(FALSE, 0);
+    // GroupBox = CreateGrouplist(&page1);
+    // gtk_widget_set_size_request(GTK_BOX(GroupBox), 250, 480);
+    // gtk_box_pack_start(GTK_BOX(page1),GroupBox, FALSE, FALSE, 1);
+    GroupBox = gtk_button_new_with_label("在线群聊");
+    gtk_container_add(GTK_CONTAINER(page), GroupBox);
+    g_signal_connect(G_OBJECT(GroupBox), "clicked",
+                     G_CALLBACK(ClickedGroup), (gpointer)MainWindow);
+    grouplabel = gtk_label_new("群聊列表");
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook),page, grouplabel);
+    
 
     //工具栏
 

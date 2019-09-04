@@ -49,6 +49,20 @@ void getThisTime()
     sprintf(nowtime,"%d/%d/%d  %d:%d:%d",l_time->tm_year+1900,l_time->tm_mon+1,l_time->tm_mday,l_time->tm_hour,l_time->tm_min,l_time->tm_sec);
 }
 /**
+ * @Author: hhz
+ * @Description: 
+ * @Param: 
+ * @Return: 
+ * @Throw: 
+ */
+void ClickedGroup(GtkWidget *button, gpointer window)
+{
+    GtkWidget *TalkWindow;
+    TalkWindow=CreateTalkWindow(NULL);
+    gtk_widget_show(TalkWindow);
+}
+
+/**
  * @Author: 王可欣
  * @Description: 在输入框中插入表情
  * @Param: 
