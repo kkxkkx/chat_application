@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-08-31 19:08:01 -0700
- * @LastEditTime: 2019-09-04 10:31:15 -0700
+ * @LastEditTime: 2019-09-04 10:45:13 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -137,7 +137,8 @@ GtkWidget *CreateTalkWindow(char *name)
     GtkWidget *toolbar, *buttonbox;
     GtkWidget *SendBtn;
     GtkWidget *hPaned, *vPaned, *cardPaned;
-    TextView mylabelcard, oppolabelcard;
+    GtkWidget *mylabelcard, *oppolabelcard;
+    GtkWidget *mylabel,*friendlabel;
 
     TalkWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(TalkWindow), name);
@@ -153,18 +154,23 @@ GtkWidget *CreateTalkWindow(char *name)
     gtk_paned_add1(GTK_PANED(hPaned), vPaned);
     buttonbox = gtk_hbox_new(FALSE, 0);
 
-    //右侧好友资料卡与用户资料卡
-    cardPaned = gtk_vpaned_new();
-    gtk_paned_set_position(cardPaned, 250);
-    gtk_paned_add2(GTK_PANED(hPaned), cardPaned);
-    mylabelcard.view = gtk_text_view_new();
-    mylabelcard.view_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mylabelcard.view));
-    gtk_text_view_set_editable(GTK_TEXT_VIEW(mylabelcard.view), FALSE);
-    oppolabelcard.view = gtk_text_view_new();
-    oppolabelcard.view_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(oppolabelcard.view));
-    gtk_text_view_set_editable(GTK_TEXT_VIEW(oppolabelcard.view), FALSE);
-    gtk_paned_add1(GTK_PANED(cardPaned), oppolabelcard.view);
-    gtk_paned_add2(GTK_PANED(cardPaned), mylabelcard.view);
+      //右侧好友资料卡与用户资料卡
+    cardPaned = gtk_vbox_new(FALSE,10);
+    //gtk_paned_set_position(cardPaned,250);
+    gtk_paned_add2(GTK_PANED(hPaned),cardPaned);
+    mylabelcard = gtk_frame_new("个人资料卡");
+    gtk_frame_set_label_align(GTK_FRAME(mylabelcard),0.5,0.5);
+    oppolabelcard = gtk_frame_new("好友资料卡");
+    gtk_frame_set_label_align(GTK_FRAME(oppolabelcard),0.5,0.5);
+
+    gtk_box_pack_start(GTK_BOX(cardPaned),oppolabelcard,FALSE,FALSE,0);
+    gtk_box_pack_start(GTK_BOX(cardPaned),mylabelcard,FALSE,FALSE,0);
+    gtk_frame_set_shadow_type(GTK_FRAME(oppolabelcard),GTK_SHADOW_ETCHED_OUT);
+    gtk_frame_set_shadow_type(GTK_FRAME(mylabelcard),GTK_SHADOW_ETCHED_OUT);
+    mylabel = gtk_label_new("ID: \nIP: \n状态：　\n");
+    gtk_container_add(GTK_CONTAINER(mylabelcard),mylabel); 
+    friendlabel = gtk_label_new("ID: \nIP: \n状态：　\n");
+    gtk_container_add(GTK_CONTAINER(oppolabelcard),friendlabel);
 
     TalkMenuBox = gtk_vbox_new(FALSE, 0);
     gtk_paned_add2(GTK_PANED(vPaned), TalkMenuBox);
