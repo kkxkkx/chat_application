@@ -4,18 +4,19 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-09-02 03:31:32 -0700
- * @LastEditTime: 2019-09-04 10:12:53 -0700
+ * @LastEditTime: 2019-09-04 17:13:04 -0700
  * @LastEditors: 
  * @Description: 
  */
 #include "head.h"
 #include "interface.h"
 #include "mainprogram.h"
+#include "DataTransformInterface.h"
 const gchar *list_item_data_key = "list_item_data";
 //static int i = 1;
 GtkWidget *list;
 GtkWidget *gtklist;
-void list_add(int i);
+void list_add(char *name);
 
 static void sigh_print_selection(GtkWidget *gtklist, gpointer func_data);
 
@@ -47,10 +48,15 @@ GtkWidget * CreateFriendlist(GtkWidget *page)
     g_signal_connect(G_OBJECT(gtklist), "selection_changed", G_CALLBACK(sigh_print_selection), NULL);
     //g_signal_connect(G_OBJECT(gtklist), "clicked", G_CALLBACK(sigh_print_selection), NULL);
 /////////////传入数据
-    for (i = 0; i < 100; i++)
-    {
-        list_add(i);
-    }
+
+    int onlineNum;
+    char onlinePer[40][40];
+  //  online_user_list
+    // online_user_list("online_user_list",onlineNum,onlinePer);
+    // for (i = 0; i < onlineNum; i++)
+    // {
+    //     list_add(onlinePer[i]);
+    // }
 ////////////
     return vbox;
 }
@@ -94,16 +100,16 @@ void sigh_print_selection(GtkWidget *gtklist, gpointer func_data)
  * @Param: 
  * @Return: 
  */
-void list_add(int i)
+void list_add(char * name)
 {
+    gchar *buffer;
     GtkWidget *label;
-    gchar buffer[64];
     GtkWidget *list_item;
     PangoFontDescription *desc;
     gchar *string;
-    sprintf(buffer, "%d", i);
-    //label=gtk_button_new_with_label(buffer);
-    label = gtk_label_new(buffer);
+    // sprintf(buffer, "%d", i);
+    // label=gtk_button_new_with_label(buffer);
+    label = gtk_label_new(name);
     gtk_misc_set_alignment(GTK_MISC(label), 0.15, 0.6);
     desc = pango_font_description_from_string("16");
     gtk_widget_modify_font(label, desc);

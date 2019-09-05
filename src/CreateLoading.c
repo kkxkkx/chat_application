@@ -18,6 +18,12 @@ static GtkWidget *CheckQuest;
 static GtkWidget *AgainPassword;
 static GtkWidget *NewPassword;
 
+/**
+ * @Author: 何禾子
+ * @Description: 点击登录
+ * @Param: 
+ * @Return: 
+ */
 void on_button_clicked(GtkWidget *button, gpointer window)
 {
     const gchar *username = gtk_entry_get_text(GTK_ENTRY(entry1));
@@ -60,7 +66,6 @@ void on_button_clicked(GtkWidget *button, gpointer window)
         }
     if (flag == 0)
     {
-        //sendDataToServer(username);
         local=username;
         //跳转到好友列表
         gtk_widget_hide_all(LoadingWindow);
