@@ -124,6 +124,7 @@ INFO_CODE num_to_code[450];
 ///////////////全局变量声明区/////////////
 GtkWidget *FriendWindow;
 GtkWidget *LoadingWindow;
+GtkWidget *TalkWindow;
 Queue Q;
 char *local;
 

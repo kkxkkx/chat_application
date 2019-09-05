@@ -70,7 +70,7 @@ void getThisTime()
  */
 void ClickedGroup(GtkWidget *button, gpointer window)
 {
-    GtkWidget *TalkWindow;
+   // GtkWidget *TalkWindow;
     TalkWindow=CreateTalkWindow(NULL);
     gtk_widget_show(TalkWindow);
 }

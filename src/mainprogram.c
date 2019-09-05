@@ -160,7 +160,7 @@ void auto_update_thread()
             GtkTextIter show;
             // if (isconnected == FALSE)
             //     return;
-           char *message="nsjansjasja";
+            char *message="nsjansjasja";
             gdk_threads_enter(); //进入
             gtk_text_buffer_get_end_iter(chatwin->to, &show);
 

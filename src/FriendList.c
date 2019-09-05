@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-09-02 03:31:32 -0700
- * @LastEditTime: 2019-09-04 17:13:04 -0700
+ * @LastEditTime: 2019-09-04 19:56:04 -0700
  * @LastEditors: 
  * @Description: 
  */
@@ -48,15 +48,15 @@ GtkWidget * CreateFriendlist(GtkWidget *page)
     g_signal_connect(G_OBJECT(gtklist), "selection_changed", G_CALLBACK(sigh_print_selection), NULL);
     //g_signal_connect(G_OBJECT(gtklist), "clicked", G_CALLBACK(sigh_print_selection), NULL);
 /////////////传入数据
-
-    int onlineNum;
-    char onlinePer[40][40];
-  //  online_user_list
-    // online_user_list("online_user_list",onlineNum,onlinePer);
-    // for (i = 0; i < onlineNum; i++)
-    // {
-    //     list_add(onlinePer[i]);
-    // }
+    
+    // parseOnlineUserList(CJson,onlineNum,onlinePer);
+    // char onlinePer[10][40];
+    // onlinePer[0]="何禾子"；
+    // onlinePer[1]=' bn邓方晴'；
+     for (i = 0; i < 1; i++)
+      {
+          list_add("小邓");
+      }
 ////////////
     return vbox;
 }

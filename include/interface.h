@@ -50,9 +50,8 @@ typedef struct portraitInfo{
 
 //好友
 typedef struct FriendInfo{
-    int num;
-    char *Id;
-    
+    int onlineNum;
+    char onlinePer[40][40];
 }Friend;
 
 //表情
@@ -83,4 +82,5 @@ GtkWidget * CreateFriendlist(GtkWidget *page);
 GtkWidget* CreateGrouplist(GtkWidget *page);
 
 FromToWin *chatwin;
+Friend *friend;
 #endif

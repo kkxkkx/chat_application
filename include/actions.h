@@ -4,7 +4,7 @@
  * @File name: 
  * @Version: 
  * @Date: 2019-09-01 10:03:32 +0800
- * @LastEditTime: 2019-09-03 02:20:03 -0700
+ * @LastEditTime: 2019-09-05 05:12:11 +0800
  * @LastEditors: 
  * @Description: 
  */
@@ -12,7 +12,13 @@
 #define __ACTIONS_H__
 #include "head.h"
 
-int sendDataToServer(char* data);
+void getLocalIP();
+
+void startListen();
+
+int sendTextToClient(cJSON *data, char *ip);
+
+int sendTextToServer(cJSON* data, char *ip);
 
 // void reUse(socketfd skf);
 

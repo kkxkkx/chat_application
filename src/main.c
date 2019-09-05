@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
     Q->Capacity =MAX_QUEUE_SIZE;
     MakeEmpty(Q);
 
+    friend= (Friend *)malloc(sizeof(Friend));
     gtk_init(&argc, &argv);
     LoadingWindow = CreateLoading();
      g_signal_connect(G_OBJECT(LoadingWindow), "delete_event",
